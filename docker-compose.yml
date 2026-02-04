@@ -24,6 +24,7 @@ services:
       - "8080:80"
     volumes:
       - ./html:/var/www/html
+      - ./php.ini:/usr/local/etc/php/conf.d/uploads.ini
     restart: always
     environment:
       WORDPRESS_DB_HOST: db:3306
