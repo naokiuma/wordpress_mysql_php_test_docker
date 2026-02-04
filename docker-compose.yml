@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  db:
+    platform: linux/amd64
+    image: mysql:5.5
+    container_name: wp-mysql55
+    ports:
+      - "33060:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: wp_db
+      MYSQL_USER: wp_user
+      MYSQL_PASSWORD: wp_password
+
+  wordpress:
+    # Apache 2.4.x と PHP 7.4.x が含まれる公式イメージ
+    image: php:7.4-apache
+    container_name: wp-app
+    ports:
+      - "8080:80"
+    volumes:
+      - ./html:/var/www/html
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wp_user
+      WORDPRESS_DB_PASSWORD: wp_password
+      WORDPRESS_DB_NAME: wp_db
+    # PHPでMySQLとwp cliを扱うための拡張機能をインストール
+    entrypoint: >
+      sh -c "
+      docker-php-ext-install mysqli && 
+      docker-php-ext-enable mysqli && 
+      curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar &&
+      chmod +x wp-cli.phar &&
+      mv wp-cli.phar /usr/local/bin/wp &&
+      apache2-foreground"
+
+volumes:
+  db_data:
