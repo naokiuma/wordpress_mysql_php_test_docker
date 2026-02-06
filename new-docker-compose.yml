@@ -4,7 +4,7 @@ services:
   db:
     platform: linux/amd64
     image: mysql:5.5
-    # image: mysql:8.0.35 # mysql更新時はここを書き換える
+    # image: mysql:8.0.35 # mysql更新時はここを書き換えるだけ。
     container_name: wp-mysql55
     ports:
       - "33060:3306"
@@ -19,8 +19,8 @@ services:
 
   wordpress:
     # Apache 2.4.x と PHP 7.4.x が含まれる公式イメージ
-    image: php:7.4-apache
-    # image: php:8.3-apache
+    # image: php:7.4-apache
+    image: php:8.3-apache
     container_name: wp-app
     ports:
       - "8080:80"
