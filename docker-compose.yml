@@ -4,6 +4,7 @@ services:
   db:
     platform: linux/amd64
     image: mysql:5.5
+    # image: mysql:8.0.35 # mysql更新時はここを書き換える
     container_name: wp-mysql55
     ports:
       - "33060:3306"
@@ -19,6 +20,7 @@ services:
   wordpress:
     # Apache 2.4.x と PHP 7.4.x が含まれる公式イメージ
     image: php:7.4-apache
+    # image: php:8.3-apache # php変更時はここを書き換える
     container_name: wp-app
     ports:
       - "8080:80"
@@ -39,6 +41,8 @@ services:
       curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar &&
       chmod +x wp-cli.phar &&
       mv wp-cli.phar /usr/local/bin/wp &&
+      sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf &&
+      a2enmod rewrite &&
       apache2-foreground"
 
 volumes:
