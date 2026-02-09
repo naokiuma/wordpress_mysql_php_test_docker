@@ -18,7 +18,7 @@ docker compose up -d
 
 ###  wpインストール後、初期ウィザード時に必要になる情報
 ```
-データベース名	wp_db
+データベース名	wp_db_temp（同じpcで2回目以降の構築をする場合は重複しエラーとなるため、docker-composeと、ここの名前は任意で書き換えてください）
 ユーザー名	wp_user
 パスワード	wp_password
 データベースのホスト名	db
